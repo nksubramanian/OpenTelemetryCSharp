@@ -1,4 +1,5 @@
 using Microsoft.AspNetCore.Mvc;
+using System.Diagnostics;
 
 namespace OpenTelemetryCSharp.Controllers
 {
@@ -21,6 +22,11 @@ namespace OpenTelemetryCSharp.Controllers
         [HttpGet(Name = "GetWeatherForecast")]
         public IEnumerable<WeatherForecast> Get()
         {
+            var activity = new Activity("Parent");
+            activity.Start();
+
+            activity.Stop();
+
             return Enumerable.Range(1, 5).Select(index => new WeatherForecast
             {
                 Date = DateTime.Now.AddDays(index),
