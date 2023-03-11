@@ -24,10 +24,19 @@ namespace OpenTelemetryCSharp.Controllers
         }
 
         [HttpPost]
-        public string Post()
+        public string Post(Details details)
         {
-            var d = _contactsAPIDbContext.Contacts.ToList();
-            return JsonConvert.SerializeObject(d);
+            var contact = new Contact()
+            {
+                Id = Guid.NewGuid(),
+                Name = details.Name,  
+                Description = details.Description
+
+            };
+            _contactsAPIDbContext.Contacts.Add(contact);
+            _contactsAPIDbContext.SaveChanges();
+            return "done";
+
         }
 
     }
