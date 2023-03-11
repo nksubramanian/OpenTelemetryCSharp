@@ -23,5 +23,12 @@ namespace OpenTelemetryCSharp.Controllers
             return JsonConvert.SerializeObject(d);  
         }
 
+        [HttpPost]
+        public string Post()
+        {
+            var d = _contactsAPIDbContext.Contacts.ToList();
+            return JsonConvert.SerializeObject(d);
+        }
+
     }
 }
