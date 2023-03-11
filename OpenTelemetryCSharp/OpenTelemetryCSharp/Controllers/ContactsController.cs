@@ -7,5 +7,12 @@ namespace OpenTelemetryCSharp.Controllers
     [Route("[controller]")]
     public class ContactsController : ControllerBase
     {
+
+        [HttpGet]
+        public string Get()
+        {
+            return "subbu";
+        }
+
     }
 }
