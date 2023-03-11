@@ -14,9 +14,12 @@ namespace ExtDependency
             _logger = loggerFactory.CreateLogger<Function1>();
         }
 
+       
         [Function("Function1")]
         public HttpResponseData Run([HttpTrigger(AuthorizationLevel.Anonymous, "get", "post")] HttpRequestData req, FunctionContext context)
         {
+
+            req.Headers.TryGetValues("traceparent", out var headerValue);
             _logger.LogInformation("C# HTTP trigger function processed a request.");
             var (operationId, parentId) = GetOperationIdAndParentId(context);
             var response = req.CreateResponse(HttpStatusCode.OK);
@@ -30,7 +33,6 @@ namespace ExtDependency
 
         private (string, string) GetOperationIdAndParentId(FunctionContext executionContext)
         {
-            // executionContext.TraceContext.TraceParent[0] = "subbu";
             var traceParent = executionContext.TraceContext.TraceParent;
             if (string.IsNullOrEmpty(traceParent))
             {
