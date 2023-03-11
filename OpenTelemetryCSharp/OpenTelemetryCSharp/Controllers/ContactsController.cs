@@ -1,4 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Newtonsoft.Json;
+using System.Text.Json.Serialization;
 
 namespace OpenTelemetryCSharp.Controllers
 {
@@ -7,11 +9,18 @@ namespace OpenTelemetryCSharp.Controllers
     [Route("[controller]")]
     public class ContactsController : ControllerBase
     {
+        private readonly ContactsAPIDbContext _contactsAPIDbContext;
+        public ContactsController(ContactsAPIDbContext contactsAPIDbContext)
+        {
+            _contactsAPIDbContext = contactsAPIDbContext;
+        }
+
 
         [HttpGet]
         public string Get()
         {
-            return "subbu";
+            var d = _contactsAPIDbContext.Contacts.ToList();
+            return JsonConvert.SerializeObject(d);  
         }
 
     }
