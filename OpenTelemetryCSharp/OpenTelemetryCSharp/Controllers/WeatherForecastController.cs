@@ -14,6 +14,14 @@ namespace OpenTelemetryCSharp.Controllers
 
         private readonly ILogger<WeatherForecastController> _logger;
 
+        private string SendHttpRequestWithTraceParent(string url)
+        {
+            var httpClient = new HttpClient();
+            var httpRequestMessage = new HttpRequestMessage(HttpMethod.Get, url);
+            var response = httpClient.SendAsync(httpRequestMessage).Result;
+            return response.ToString();
+        }
+
         public WeatherForecastController(ILogger<WeatherForecastController> logger)
         {
             _logger = logger;
@@ -22,9 +30,10 @@ namespace OpenTelemetryCSharp.Controllers
         [HttpGet(Name = "GetWeatherForecast")]
         public IEnumerable<WeatherForecast> Get()
         {
+            _logger.LogInformation("abcdefghijkl");
             var activity = new Activity("Parent");
             activity.Start();
-
+            SendHttpRequestWithTraceParent(@"http://localhost:62120/api/v1/version/Default");
             activity.Stop();
 
             return Enumerable.Range(1, 5).Select(index => new WeatherForecast

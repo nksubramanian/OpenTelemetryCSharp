@@ -24,6 +24,12 @@ builder.Services.AddOpenTelemetry()
         .SetResourceBuilder(ResourceBuilder.CreateDefault().AddService(serviceName, serviceVersion: "1.0.0"))
         );
 
+var f = builder.Configuration["ApplicationInsights:ConnectionString"];
+builder.Logging.AddApplicationInsights(
+        configureTelemetryConfiguration: (config) => config.ConnectionString = builder.Configuration["ApplicationInsights:ConnectionString"],
+        configureApplicationInsightsLoggerOptions: (options) => { }
+    );
+
 var app = builder.Build();
 
 

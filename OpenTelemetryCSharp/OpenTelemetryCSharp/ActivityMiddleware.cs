@@ -15,20 +15,20 @@ public class ActivityMiddleware
     {
         // Create a new activity
         var activity = new Activity("WebApi.Request");
-        activity.SetParentId("00-295dd8a547b4d06405c1ea99c0bc512f-663b9cc4055b4400-01 ");
+        //activity.SetParentId("00-295dd8a547b4d06405c1ea99c0bc512f-663b9cc4055b4400-01 ");
 
         // Set the activity trace ID and parent ID from the incoming request headers
         if (context.Request.Headers.TryGetValue("traceparent", out var traceparentHeader))
         {
             //var traceparent = ActivityContext.Parse(traceparentHeader.ToString());
             //activity.SetParentId(traceparent.SpanId, traceparent.TraceId, traceparent.TraceFlags);
+            activity.SetParentId(traceparentHeader);
 
 
         }
-        else
-        {
+
             activity.Start();
-        }
+       
 
         try
         {
